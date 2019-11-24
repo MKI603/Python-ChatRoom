@@ -1,10 +1,5 @@
-#!/usr/local/bin/python3
 # -*- coding:UTF-8 -*-
 # AUTHOR: Mki
-# FILE: ~/Desktop/DailyCode/Python/加强版涩图聊天室/server.py
-# DATE: 2019/11/12 周二
-# TIME: 14:31:20
-
 
 # DESCRIPTION:   聊天室服务器
 
@@ -122,10 +117,10 @@ class Server():
             self.handle(msg,addr)
 
 if __name__ == '__main__':
-    host = sys.argv[1]
-    port = sys.argv[2]
-    print(f"Target:{host} {port}")
-    Server((host, int(port)))
+    localhost = sys.argv[1]
+    localport = sys.argv[2]
+    localaddr = (localhost,int(localport))
+    Server(localaddr)
 
 
 

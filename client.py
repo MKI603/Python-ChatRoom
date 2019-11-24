@@ -1,11 +1,7 @@
-#!/usr/local/bin/python3
 # -*- coding:UTF-8 -*-
 # AUTHOR: Mki
-# FILE: ~/Desktop/DailyCode/Python/加强版涩图聊天室/client.py
-# DATE: 2019/11/12 周二
-# TIME: 14:31:12
 
-# DESCRIPTION: 网络编程课作业  聊天室客户端
+# DESCRIPTION:  聊天室客户端
 import threading
 from socket import socket, AF_INET, SOCK_DGRAM
 import json
@@ -13,13 +9,14 @@ import os
 import sys
 
 class Client():
-    def __init__(self,addr):
+    def __init__(self,localAddr,serverAddr):
         '''
         初始化
         '''
-        self.addr = addr
+        self.addr = localAddr
+        self.serverAddr = serverAddr
         self.sock = socket(AF_INET, SOCK_DGRAM)
-        self.sock.bind(addr)
+        self.sock.bind(localAddr)
         self.auth = {}
         self.queue = []
         self.start()
@@ -40,7 +37,7 @@ class Client():
         msg["type"] = "notice"
         msg = json.dumps(msg)
         msg = bytes(msg, encoding='utf-8')
-        self.sock.sendto(msg, ('localhost',20000))
+        self.sock.sendto(msg, self.serverAddr)
 
     def recieve(self,addr):
         '''
@@ -74,7 +71,7 @@ class Client():
         '''
         msg = {}
         msg["auth"] = self.auth
-        mode = input("mode b:(broadcast) s:(solo) l:(list all users)\n")
+        mode = input("mode b:(broadcast) s:(solo) l:(list all users) e:(exit)\n")
         if mode == "s":
             msg["type"] = "solo"
             msg["toWho"] = str(input("to: "))
@@ -88,7 +85,7 @@ class Client():
             sys.exit()
         else:
             msg["type"] = ""
-            print("Wrong order, please input b:(broadcast) s:(solo) l:(list all users)")
+            print("Wrong order, please input b:(broadcast) s:(solo) l:(list all users) e:(exit")
         msg = json.dumps(msg)
         msg = bytes(msg, encoding='utf-8')
         return msg
@@ -102,14 +99,19 @@ class Client():
         self.login()
         while True:
             msg = self.pack()
-            self.sock.sendto(msg, ('localhost',20000))
+            self.sock.sendto(msg, self.serverAddr)
 
 
 if __name__ == "__main__":
-    host = sys.argv[1]
-    port = sys.argv[2]
-    print(f"Target:{host} {port}")
-    Client((host,int(port)))
+    localHost = sys.argv[1]
+    localPort = int(sys.argv[2])
+    localAddr = (localHost,int(localPort))
+
+    romoteHost = sys.argv[3]
+    romotePort = sys.argv[4]
+    romoteAddr = (romoteHost,int(romotePort))
+    
+    Client(localAddr,romoteAddr)
 
 
 
