@@ -54,14 +54,14 @@ class Client():
         聊天界面
         '''
         os.system('clear')
-        print("################# Mki's ChatRoom #################")
+        print("################# ChatRoom #################")
         if len(self.queue)>=6:
             for msg in self.queue[-6:]:
                 print(f'{msg} \n')
         else:
             for msg in self.queue:
                 print(f'{msg} \n')
-        print("################# Mki's ChatRoom ################")
+        print("################# ChatRoom ################")
         print("mode b:(broadcast) s:(solo) l:(list all users)")
 
 
