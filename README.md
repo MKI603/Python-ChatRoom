@@ -12,7 +12,7 @@ python3 server.py 127.0.0.1 port
 2. 启动客户端
 
 ```python
-python3 client.py [server_host] [server_port] [client_host] [client_port]
+python3 client.py [client_host] [client_port] [server_host] [server_port] 
 ```
 例如
 ```python
